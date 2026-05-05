@@ -1,180 +1,550 @@
-import React, { useState } from 'react';
-import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garza Projects - Construction Services Chicago</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-const GarzaWebsite = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #000;
+            color: #fff;
+            line-height: 1.6;
+        }
 
-  return (
-    <div className="min-h-screen text-white relative bg-black">
-      {/* Construction Background Pattern */}
-      <div className="absolute inset-0 opacity-30" style={{
-        backgroundImage: `
-          repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(234, 179, 8, 0.1) 35px, rgba(234, 179, 8, 0.1) 70px),
-          repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(234, 179, 8, 0.05) 35px, rgba(234, 179, 8, 0.05) 70px)
-        `
-      }}></div>
-      
-      <div className="relative z-10">
-        {/* Navigation */}
-        <nav className="fixed w-full bg-black/95 backdrop-blur-sm z-50 border-b border-yellow-500/30">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-20">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded flex items-center justify-center">
-                  <div className="text-gray-900 font-bold text-xl">GP</div>
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.3;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(234, 179, 8, 0.1) 35px, rgba(234, 179, 8, 0.1) 70px),
+                repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(234, 179, 8, 0.05) 35px, rgba(234, 179, 8, 0.05) 70px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(234, 179, 8, 0.3);
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #facc15, #eab308);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: #000;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            color: #facc15;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #facc15;
+        }
+
+        .nav-links .btn {
+            background: #facc15;
+            color: #000;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .nav-links .btn:hover {
+            background: #eab308;
+            color: #000;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            background: rgba(0, 0, 0, 0.95);
+            border-top: 1px solid rgba(234, 179, 8, 0.3);
+            padding: 20px;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu .btn {
+            background: #facc15;
+            color: #000;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 20px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* Hero */
+        .hero {
+            padding-top: 160px;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 56px;
+            font-weight: bold;
+            margin-bottom: 24px;
+        }
+
+        .hero .subtitle {
+            font-size: 32px;
+            color: #facc15;
+            margin-bottom: 16px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #d1d5db;
+            max-width: 800px;
+            margin: 0 auto 32px;
+        }
+
+        .hero .cta-btn {
+            display: inline-block;
+            background: #facc15;
+            color: #000;
+            padding: 16px 32px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 18px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .hero .cta-btn:hover {
+            background: #eab308;
+        }
+
+        /* Services */
+        .services {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-title span {
+            color: #facc15;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .service-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 32px;
+            border-radius: 4px;
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            text-align: center;
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #facc15;
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            color: #d1d5db;
+        }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .gallery-item {
+            aspect-ratio: 16/9;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 4px;
+            border: 2px solid rgba(234, 179, 8, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #6b7280;
+            transition: border-color 0.3s;
+        }
+
+        .gallery-item:hover {
+            border-color: rgba(234, 179, 8, 0.5);
+        }
+
+        .gallery-item .icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        /* About */
+        .about {
+            background: rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about p {
+            font-size: 20px;
+            color: #d1d5db;
+            margin-bottom: 24px;
+        }
+
+        .about p:last-child {
+            font-size: 18px;
+            color: #9ca3af;
+        }
+
+        /* Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 32px;
+            border-radius: 4px;
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            text-align: center;
+        }
+
+        .contact-card .icon {
+            font-size: 48px;
+            color: #facc15;
+            margin-bottom: 16px;
+        }
+
+        .contact-card h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .contact-card p {
+            color: #d1d5db;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            border-top: 1px solid rgba(234, 179, 8, 0.3);
+            padding: 32px 20px;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        footer p {
+            margin-bottom: 8px;
+        }
+
+        footer p:last-child {
+            font-size: 14px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h2 {
+                font-size: 40px;
+            }
+
+            .hero .subtitle {
+                font-size: 24px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    
+    <div class="content">
+        <!-- Navigation -->
+        <nav>
+            <div class="nav-container">
+                <div class="logo">
+                    <div class="logo-icon">GP</div>
+                    <div class="logo-text">
+                        <h1>Garza Projects</h1>
+                        <p>Chicago, IL</p>
+                    </div>
                 </div>
-                <div>
-                  <div className="text-2xl font-bold">Garza Projects</div>
-                  <div className="text-xs text-yellow-400">Chicago, IL</div>
+
+                <div class="nav-links">
+                    <a href="#home">Home</a>
+                    <a href="#services">Services</a>
+                    <a href="#gallery">Gallery</a>
+                    <a href="#contact" class="btn">Contact</a>
                 </div>
-              </div>
 
-              <div className="hidden md:flex items-center space-x-8">
-                <a href="#home" className="hover:text-yellow-400 transition">Home</a>
-                <a href="#services" className="hover:text-yellow-400 transition">Services</a>
-                <a href="#gallery" className="hover:text-yellow-400 transition">Gallery</a>
-                <a href="#contact" className="bg-yellow-500 text-gray-900 px-6 py-2 rounded font-semibold hover:bg-yellow-400 transition">Contact</a>
-              </div>
-
-              <button 
-                className="md:hidden"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                {mobileMenuOpen ? <X /> : <Menu />}
-              </button>
+                <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             </div>
-          </div>
 
-          {mobileMenuOpen && (
-            <div className="md:hidden bg-black/95 border-t border-yellow-500/30">
-              <div className="px-4 py-4 space-y-3">
-                <a href="#home" className="block hover:text-yellow-400 transition">Home</a>
-                <a href="#services" className="block hover:text-yellow-400 transition">Services</a>
-                <a href="#gallery" className="block hover:text-yellow-400 transition">Gallery</a>
-                <a href="#contact" className="block bg-yellow-500 text-gray-900 px-6 py-2 rounded font-semibold text-center">Contact</a>
-              </div>
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="#home" onclick="toggleMenu()">Home</a>
+                <a href="#services" onclick="toggleMenu()">Services</a>
+                <a href="#gallery" onclick="toggleMenu()">Gallery</a>
+                <a href="#contact" class="btn" onclick="toggleMenu()">Contact</a>
             </div>
-          )}
         </nav>
 
-        {/* Hero Section */}
-        <section id="home" className="pt-32 pb-20 px-4">
-          <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              Garza Projects
-            </h1>
-            <p className="text-2xl md:text-3xl text-yellow-400 mb-4">
-              Quality Construction in Chicago
-            </p>
-            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              Professional construction services with integrity and excellence. 
-              Serving the Chicagoland area for over 15 years.
-            </p>
-            <a href="#contact" className="inline-block bg-yellow-500 text-gray-900 px-8 py-4 rounded font-semibold hover:bg-yellow-400 transition text-lg">
-              Get A Free Quote
-            </a>
-          </div>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <h2>Garza Projects</h2>
+            <p class="subtitle">Quality Construction in Chicago</p>
+            <p>Professional construction services with integrity and excellence. Serving the Chicagoland area for over 15 years.</p>
+            <a href="#contact" class="cta-btn">Get A Free Quote</a>
         </section>
 
-        {/* Services Section */}
-        <section id="services" className="py-20 px-4 bg-black/50">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
-              Our <span className="text-yellow-400">Services</span>
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-black/70 p-8 rounded border border-yellow-500/30 text-center">
-                <h3 className="text-xl font-bold mb-3 text-yellow-400">Commercial</h3>
-                <p className="text-gray-300">Office buildings, retail spaces, and commercial developments</p>
-              </div>
-              <div className="bg-black/70 p-8 rounded border border-yellow-500/30 text-center">
-                <h3 className="text-xl font-bold mb-3 text-yellow-400">Residential</h3>
-                <p className="text-gray-300">Custom homes, renovations, and remodeling projects</p>
-              </div>
-              <div className="bg-black/70 p-8 rounded border border-yellow-500/30 text-center">
-                <h3 className="text-xl font-bold mb-3 text-yellow-400">Renovations</h3>
-                <p className="text-gray-300">Transform existing spaces with modern upgrades</p>
-              </div>
-              <div className="bg-black/70 p-8 rounded border border-yellow-500/30 text-center">
-                <h3 className="text-xl font-bold mb-3 text-yellow-400">Project Management</h3>
-                <p className="text-gray-300">Full oversight from planning to completion</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Gallery Section - Placeholder for Images */}
-        <section id="gallery" className="py-20 px-4">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
-              Our <span className="text-yellow-400">Work</span>
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3, 4, 5, 6].map((item) => (
-                <div key={item} className="aspect-video bg-black/70 rounded border-2 border-yellow-500/30 flex items-center justify-center hover:border-yellow-500/50 transition">
-                  <div className="text-center text-gray-500">
-                    <div className="text-4xl mb-2">📷</div>
-                    <div>Project Image {item}</div>
-                    <div className="text-sm mt-1">Add your image here</div>
-                  </div>
+        <!-- Services Section -->
+        <section id="services" class="services">
+            <h2 class="section-title">Our <span>Services</span></h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Commercial</h3>
+                    <p>Office buildings, retail spaces, and commercial developments</p>
                 </div>
-              ))}
+                <div class="service-card">
+                    <h3>Residential</h3>
+                    <p>Custom homes, renovations, and remodeling projects</p>
+                </div>
+                <div class="service-card">
+                    <h3>Renovations</h3>
+                    <p>Transform existing spaces with modern upgrades</p>
+                </div>
+                <div class="service-card">
+                    <h3>Project Management</h3>
+                    <p>Full oversight from planning to completion</p>
+                </div>
             </div>
-          </div>
         </section>
 
-        {/* About Section */}
-        <section className="py-20 px-4 bg-black/50">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-8">
-              About <span className="text-yellow-400">Garza Projects</span>
-            </h2>
-            <p className="text-xl text-gray-300 mb-6">
-              With over 15 years of experience in the construction industry, Garza Projects has built a reputation 
-              for quality craftsmanship and reliable service throughout the Chicago area.
-            </p>
-            <p className="text-lg text-gray-400">
-              We are licensed, insured, and committed to delivering excellence on every project.
-            </p>
-          </div>
-        </section>
-
-        {/* Contact Section */}
-        <section id="contact" className="py-20 px-4">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">
-              Get In <span className="text-yellow-400">Touch</span>
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              <div className="bg-black/70 p-8 rounded text-center border border-yellow-500/30">
-                <Phone className="w-12 h-12 mx-auto mb-4 text-yellow-400" />
-                <h3 className="text-xl font-bold mb-2">Phone</h3>
-                <p className="text-gray-300">(312) 555-0100</p>
-              </div>
-              <div className="bg-black/70 p-8 rounded text-center border border-yellow-500/30">
-                <Mail className="w-12 h-12 mx-auto mb-4 text-yellow-400" />
-                <h3 className="text-xl font-bold mb-2">Email</h3>
-                <p className="text-gray-300">info@garzaprojects.com</p>
-              </div>
-              <div className="bg-black/70 p-8 rounded text-center border border-yellow-500/30">
-                <MapPin className="w-12 h-12 mx-auto mb-4 text-yellow-400" />
-                <h3 className="text-xl font-bold mb-2">Location</h3>
-                <p className="text-gray-300">Chicago, IL</p>
-              </div>
+        <!-- Gallery Section -->
+        <section id="gallery">
+            <h2 class="section-title">Our <span>Work</span></h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="icon">📷</div>
+                    <div>Project Image 1</div>
+                    <div style="font-size: 14px; margin-top: 4px;">Add your image here</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="icon">📷</div>
+                    <div>Project Image 2</div>
+                    <div style="font-size: 14px; margin-top: 4px;">Add your image here</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="icon">📷</div>
+                    <div>Project Image 3</div>
+                    <div style="font-size: 14px; margin-top: 4px;">Add your image here</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="icon">📷</div>
+                    <div>Project Image 4</div>
+                    <div style="font-size: 14px; margin-top: 4px;">Add your image here</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="icon">📷</div>
+                    <div>Project Image 5</div>
+                    <div style="font-size: 14px; margin-top: 4px;">Add your image here</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="icon">📷</div>
+                    <div>Project Image 6</div>
+                    <div style="font-size: 14px; margin-top: 4px;">Add your image here</div>
+                </div>
             </div>
-          </div>
         </section>
 
-        {/* Footer */}
-        <footer className="bg-black/90 py-8 px-4 border-t border-yellow-500/30">
-          <div className="max-w-7xl mx-auto text-center text-gray-400">
+        <!-- About Section -->
+        <section class="about">
+            <div class="about-content">
+                <h2 class="section-title">About <span>Garza Projects</span></h2>
+                <p>With over 15 years of experience in the construction industry, Garza Projects has built a reputation for quality craftsmanship and reliable service throughout the Chicago area.</p>
+                <p>We are licensed, insured, and committed to delivering excellence on every project.</p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <h2 class="section-title">Get In <span>Touch</span></h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="icon">📞</div>
+                    <h3>Phone</h3>
+                    <p>(312) 555-0100</p>
+                </div>
+                <div class="contact-card">
+                    <div class="icon">✉️</div>
+                    <h3>Email</h3>
+                    <p>info@garzaprojects.com</p>
+                </div>
+                <div class="contact-card">
+                    <div class="icon">📍</div>
+                    <h3>Location</h3>
+                    <p>Chicago, IL</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
             <p>&copy; 2026 Garza Projects. All rights reserved.</p>
-            <p className="text-sm mt-2">Licensed & Insured in Illinois</p>
-          </div>
+            <p>Licensed & Insured in Illinois</p>
         </footer>
-      </div>
     </div>
-  );
-};
 
-export default GarzaWebsite;
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMenu();
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
